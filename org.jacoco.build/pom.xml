@@ -14,7 +14,7 @@
 
   <groupId>org.jacoco</groupId>
   <artifactId>org.jacoco.build</artifactId>
-  <version>0.7.3-SNAPSHOT</version>
+  <version>0.7.6-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>JaCoCo</name>
@@ -129,6 +129,9 @@
     <maven.build.timestamp.format>yyyyMMddhhmm</maven.build.timestamp.format>
     <jacoco.home.url>http://www.eclemma.org/jacoco</jacoco.home.url>
     <copyright.years>${project.inceptionYear}, 2015</copyright.years>
+
+    <maven.compiler.source>1.5</maven.compiler.source>
+    <maven.compiler.target>1.5</maven.compiler.target>
 
     <jvm.args></jvm.args>
     <argLine>${jvm.args}</argLine>

@@ -20,6 +20,44 @@
 
 <h2>Snapshot Build @qualified.bundle.version@ (@build.date@)</h2>
 
+<h2>Release 0.7.5 (2015/05/24)</h2>
+
+<h3>New Features</h3>
+<ul>
+  <li>Better detection of coverage in code blocks with implicit exceptions.
+      (GitHub <a href="https://github.com/jacoco/jacoco/issues/310">#310</a>).</li>
+  <li>Added lifecycle-mapping-metadata.xml for M2E
+      (GitHub <a href="https://github.com/jacoco/jacoco/issues/203">#203</a>).</li>
+  <li>Allow locales with country and variant for Ant report task
+      (GitHub <a href="https://github.com/jacoco/jacoco/issues/289">#289</a>).</li>
+</ul>
+
+<h3>Fixed Bugs</h3>
+<ul>
+  <li>For the Ant tasks <code>coverage</code> and <code>agent</code> the
+      <code>destfile</code> attribute is now passed as an absolute path also in
+      the default case
+      (GitHub <a href="https://github.com/jacoco/jacoco/issues/301">#301</a>).</li>
+</ul>
+
+<h3>API Changes</h3>
+<ul>
+  <li>The exec file version has been updated and is not compatible with previous
+      versions.</li>
+</ul>
+
+<h2>Release 0.7.4 (2015/02/26)</h2>
+
+<h3>Fixed Bugs</h3>
+<ul>
+  <li>Restored exec file compatibility with version 0.7.2 by fixing missing
+      probes in case of try/catch blocks which are jump targets.
+      (GitHub <a href="https://github.com/jacoco/jacoco/issues/286">#286</a>).</li>
+</ul>
+
+
+<h2>Release 0.7.3 (2015/02/19)</h2>
+
 <h3>New Features</h3>
 <ul>
   <li>For offline instrumemtation agent configuration supports system properties

@@ -12,6 +12,8 @@
 package org.jacoco.core.internal.flow;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.objectweb.asm.Opcodes.*;
 
@@ -33,6 +35,13 @@ public class LabelFlowAnalyzerTest {
 	public void setup() {
 		analyzer = new LabelFlowAnalyzer();
 		label = new Label();
+	}
+
+	@Test
+	public void testInit() {
+		assertFalse(analyzer.successor);
+		assertTrue(analyzer.first);
+		assertNull(analyzer.lineStart);
 	}
 
 	@Test
@@ -107,6 +116,15 @@ public class LabelFlowAnalyzerTest {
 
 	@Test
 	public void testFlowScenario10() {
+		analyzer.visitTryCatchBlock(new Label(), new Label(), label,
+				"java/lang/Exception");
+		analyzer.visitJumpInsn(GOTO, label);
+		assertTrue(LabelInfo.isMultiTarget(label));
+		assertFalse(LabelInfo.isSuccessor(label));
+	}
+
+	@Test
+	public void testFlowScenario11() {
 		// Even if the same label is referenced multiple times but from the same
 		// source instruction this is only counted as one target.
 		analyzer.visitLookupSwitchInsn(label, new int[] { 0, 1 }, new Label[] {
@@ -116,18 +134,12 @@ public class LabelFlowAnalyzerTest {
 	}
 
 	@Test
-	public void testFlowScenario11() {
+	public void testFlowScenario12() {
 		// Even if the same label is referenced multiple times but from the same
 		// source instruction this is only counted as one target.
 		analyzer.visitTableSwitchInsn(0, 1, label, new Label[] { label, label });
 		assertFalse(LabelInfo.isMultiTarget(label));
 		assertFalse(LabelInfo.isSuccessor(label));
-	}
-
-	@Test
-	public void testInit() {
-		assertFalse(analyzer.successor);
-		assertTrue(analyzer.first);
 	}
 
 	@Test
@@ -285,17 +297,27 @@ public class LabelFlowAnalyzerTest {
 	}
 
 	@Test
+	public void testLineNumber() {
+		analyzer.visitLineNumber(42, label);
+		assertSame(label, analyzer.lineStart);
+	}
+
+	@Test
 	public void testMethodInsn() {
+		analyzer.visitLineNumber(42, label);
 		analyzer.visitMethodInsn(INVOKEVIRTUAL, "Foo", "doit", "()V", false);
 		assertTrue(analyzer.successor);
 		assertFalse(analyzer.first);
+		assertTrue(LabelInfo.isMethodInvocationLine(label));
 	}
 
 	@Test
 	public void testInvokeDynamicInsn() {
+		analyzer.visitLineNumber(42, label);
 		analyzer.visitInvokeDynamicInsn("foo", "()V", null);
 		assertTrue(analyzer.successor);
 		assertFalse(analyzer.first);
+		assertTrue(LabelInfo.isMethodInvocationLine(label));
 	}
 
 	@Test
